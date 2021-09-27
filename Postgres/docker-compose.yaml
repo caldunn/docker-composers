@@ -1,0 +1,39 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    container_name: postgres_db
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-genericpass123}
+    ports:
+        - 5432:5432
+
+    volumes:
+    - '/srv/postgres:/var/lib/postgresql/data'
+
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-caldunn@localhost.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    
+    # Invalid write permissions. Will need to have a look at this later.
+    #volumes:
+    #    - '/srv/pgadmin:/var/lib/pgadmin'
+
+    ports:
+      - "8030:80"
+
+    restart: unless-stopped
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8020:8080
