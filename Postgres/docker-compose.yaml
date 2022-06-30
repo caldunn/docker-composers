@@ -32,8 +32,3 @@ services:
 
     restart: unless-stopped
 
-  adminer:
-    image: adminer
-    restart: unless-stopped
-    ports:
-      - 8020:8080
